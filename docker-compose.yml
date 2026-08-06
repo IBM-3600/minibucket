@@ -1,0 +1,22 @@
+services:
+  minibucket:
+    build: .
+    container_name: minibucket
+    ports:
+      - "8080:8080"
+    environment:
+      STORAGE_DIR: /app/data
+      PORT: 8080
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin}
+      DEDUPE: ${DEDUPE:-true}
+      NAMING_STRATEGY: ${NAMING_STRATEGY:-hash}
+      MAX_FILE_SIZE: ${MAX_FILE_SIZE:-5368709120}
+      CDN_MAX_AGE: ${CDN_MAX_AGE:-31536000}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-*}
+      THUMBNAIL_ENABLED: ${THUMBNAIL_ENABLED:-true}
+      S3_COMPAT_ENABLED: ${S3_COMPAT_ENABLED:-false}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+    volumes:
+      - ./data:/app/data          # persistent assets + JSON indexes
+    restart: unless-stopped

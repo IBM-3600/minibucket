@@ -1,0 +1,14 @@
+{
+  "categories": {
+    "images":    { "extensions": ["jpg", "jpeg", "png", "gif", "webp", "avif", "svg", "ico", "bmp", "tiff"] },
+    "models":    { "extensions": ["glb", "gltf", "fbx", "obj", "dae", "usdz", "stl", "blend"] },
+    "textures":  { "extensions": ["hdr", "exr", "ktx2", "ktx"] },
+    "videos":    { "extensions": ["mp4", "webm", "mov", "mkv", "avi", "m4v"] },
+    "audio":     { "extensions": ["mp3", "wav", "ogg", "m4a", "flac", "aac"] },
+    "documents": { "extensions": ["pdf", "doc", "docx", "txt", "md", "csv", "xls", "xlsx", "ppt", "pptx", "rtf"] },
+    "archives":  { "extensions": ["zip", "rar", "tar", "gz", "bz2", "xz", "7z"] },
+    "fonts":     { "extensions": ["woff", "woff2", "ttf", "otf", "eot"] },
+    "code":      { "extensions": ["js", "mjs", "cjs", "ts", "css", "html", "json", "xml", "yaml", "yml", "toml", "sh", "py", "wasm"] }
+  },
+  "blocked": ["exe", "bat", "cmd", "com", "msi", "scr", "dll", "so", "dylib", "app", "deb", "rpm", "jar", "class", "ps1", "vbs", "hta", "cgi", "php", "jsp", "asp", "aspx"]
+}

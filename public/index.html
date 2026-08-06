@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniBucket — Asset Console</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%234f8cff'/%3E%3Cpath d='M9 21V11l7 5 7-5v10' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <!-- Login -->
+  <div id="login" class="login hidden">
+    <form id="login-form" class="login-card" autocomplete="on">
+      <div class="login-logo">🪣</div>
+      <h1>MiniBucket</h1>
+      <p class="muted">Self-hosted object storage &amp; CDN</p>
+      <label>Username <input id="login-username" value="admin" autocomplete="username"></label>
+      <label>Password <input id="login-password" type="password" autocomplete="current-password" required></label>
+      <button class="btn primary block" type="submit">Sign in</button>
+      <div id="login-error" class="error-text"></div>
+    </form>
+  </div>
+
+  <!-- App shell -->
+  <div id="app" class="app hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand"><span class="brand-mark">🪣</span> MiniBucket</div>
+      <nav id="nav">
+        <a href="#/dashboard"   data-route="dashboard">📊 Dashboard</a>
+        <a href="#/upload"      data-route="upload">⬆️ Upload</a>
+        <a href="#/assets"      data-route="assets">🗂️ Assets</a>
+        <a href="#/categories"  data-route="categories">🏷️ Categories</a>
+        <a href="#/folders"     data-route="folders">📁 Folders</a>
+        <a href="#/search"      data-route="search">🔍 Search</a>
+        <a href="#/statistics"  data-route="statistics">📈 Statistics</a>
+        <div class="nav-sep"></div>
+        <a href="#/api-keys"    data-route="api-keys">🔑 API Keys</a>
+        <a href="#/users"       data-route="users">👤 Users</a>
+        <a href="#/activity"    data-route="activity">🧾 Activity</a>
+        <a href="#/trash"       data-route="trash">🗑️ Trash</a>
+        <a href="#/settings"    data-route="settings">⚙️ Settings</a>
+      </nav>
+      <div class="sidebar-foot" id="storage-badge">…</div>
+    </aside>
+
+    <div class="main">
+      <header class="topbar">
+        <button id="nav-toggle" class="icon-btn" title="Menu">☰</button>
+        <div class="search-wrap">
+          <input id="global-search" placeholder="Search assets… (press /)" autocomplete="off">
+        </div>
+        <div class="topbar-actions">
+          <span id="upload-mini" class="upload-mini hidden"></span>
+          <a href="#/upload" class="btn primary">⬆ Upload</a>
+          <span id="user-chip" class="user-chip"></span>
+        </div>
+      </header>
+      <main id="view" class="view"></main>
+    </div>
+  </div>
+
+  <div id="drop-overlay" class="drop-overlay hidden"><div>Drop files to upload to MiniBucket</div></div>
+  <div id="toasts" class="toasts"></div>
+  <div id="modal-root"></div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
