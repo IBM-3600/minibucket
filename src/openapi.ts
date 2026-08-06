@@ -59,7 +59,7 @@ export const OPENAPI = {
     '/api/v1/events': { get: { summary: 'SSE live update stream', security: bearer, responses: { 200: { description: 'event stream' } } } },
     '/cdn/{path}': { get: { summary: 'CDN delivery (Range, ETag, 304, immutable caching)', security: [], responses: { 200: { description: 'bytes' }, 206: { description: 'partial' }, 304: { description: 'not modified' } } }
   }
-};
+}};
 
 export function registerDocs(app: FastifyInstance): void {
   app.get('/api/openapi.json', async () => OPENAPI);
