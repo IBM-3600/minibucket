@@ -35,9 +35,11 @@ import { registerMiscRoutes } from './routes/misc.js';
 import { registerAdminRoutes } from './routes/keys-users.js';
 import { registerS3Routes } from './routes/s3.js';
 import { registerDocs } from './openapi.js';
+import { installConsoleFileLogger, closeConsoleFileLogger } from './lib/console-file-logger.js';
 
 export async function buildApp(overrides: Partial<AppConfig> = {}): Promise<FastifyInstance> {
   const config = loadConfig(overrides);
+  await installConsoleFileLogger(config.logFile);
   const logger = new Logger(config.logLevel as any);
   const metaDir = path.join(config.storageDir, 'metadata');
   const backupDir = path.join(metaDir, 'backups');
@@ -142,12 +144,24 @@ export async function buildApp(overrides: Partial<AppConfig> = {}): Promise<Fast
   bus.on('cdn.hit', (p: any) => tracker.hit(p.relPath));
 
   // ── HTTP ────────────────────────────────────────────────────────────────
-  const app = Fastify({
-    logger: { level: config.logLevel, redact: ['req.headers.authorization', 'req.headers.cookie'] },
-    bodyLimit: 2 * 1024 * 1024,
-    trustProxy: true,
-    disableRequestLogging: config.logLevel === 'silent'
-  });
+  const fastifyLogger =
+  config.logFile
+    ? {
+        level: config.logLevel,
+        redact: ['req.headers.authorization', 'req.headers.cookie'],
+        file: config.logFile
+      }
+    : {
+        level: config.logLevel,
+        redact: ['req.headers.authorization', 'req.headers.cookie']
+      };
+
+const app = Fastify({
+  logger: fastifyLogger,
+  bodyLimit: 2 * 1024 * 1024,
+  trustProxy: true,
+  disableRequestLogging: config.logLevel === 'silent'
+});
   app.decorate('mb', ctx);
 
   await app.register(cors, {
@@ -200,6 +214,7 @@ export async function buildApp(overrides: Partial<AppConfig> = {}): Promise<Fast
       keysStore.close(), s3Store.close(), foldersStore.close(), settingsStore.close()
     ]);
     logger.info('metadata stores flushed and closed');
+    await closeConsoleFileLogger();
   });
 
   logger.info(`MiniBucket ready (storage: ${config.storageDir}, assets indexed: ${assets.count()})`);

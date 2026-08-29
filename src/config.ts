@@ -32,6 +32,9 @@ export function loadConfig(overrides: Partial<AppConfig> = {}): AppConfig {
     thumbnailEnabled: bool(env.THUMBNAIL_ENABLED, true),
     enableWebsockets: bool(env.ENABLE_WEBSOCKETS, false),
     logLevel: env.LOG_LEVEL ?? 'info',
+     logFile: env.LOG_FILE && env.LOG_FILE.trim()
+      ? path.resolve(env.LOG_FILE)
+      : null,
     s3Enabled: bool(env.S3_COMPAT_ENABLED, false),
     s3Bucket: env.S3_BUCKET ?? 'assets',
     s3Region: env.S3_REGION ?? 'us-east-1',
