@@ -42,7 +42,9 @@ export function loadConfig(overrides: Partial<AppConfig> = {}): AppConfig {
     workerConcurrency: int(env.WORKER_CONCURRENCY, 2),
     ...overrides
   };
-  if (!['hash', 'timestamp', 'uuid'].includes(config.namingStrategy)) config.namingStrategy = 'hash';
+  const namingStrategy = typeof config.namingStrategy === 'string' ? config.namingStrategy : 'hash';
+  if (!['hash', 'timestamp', 'uuid'].includes(namingStrategy)) config.namingStrategy = 'hash';
+  else config.namingStrategy = namingStrategy as AppConfig['namingStrategy'];
   return config;
 }
 

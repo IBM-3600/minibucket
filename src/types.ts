@@ -13,12 +13,14 @@ import type { UploadSessionManager } from './services/upload-sessions.js';
 import type { JobQueue } from './workers/queue.js';
 import type { EventBus } from './lib/event-bus.js';
 import type { RateLimiter } from './lib/rate-limiter.js';
-import type { AppConfig } from './config.js';
-export {AppConfig}
+
 export type Role = 'admin' | 'editor' | 'uploader' | 'viewer';
 export type NamingStrategy = 'hash' | 'timestamp' | 'uuid';
 export type Scope = 'read' | 'write' | 'delete' | 'admin';
 
+export interface AppConfig {
+  [key: string]:  any ;
+}
 export interface AssetRecord {
   id: string;
   originalName: string;
