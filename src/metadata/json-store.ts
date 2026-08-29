@@ -28,8 +28,10 @@ export class JsonStore<T> {
 
   async init(): Promise<void> {
     const raw = await readJsonSafe<unknown>(this.opts.file);
+   
     let loaded: T | null = null;
     if (raw !== null) loaded = this.opts.validate ? this.opts.validate(raw) : (raw as T);
+   
     if (loaded === null && raw !== null) {
       this.opts.logger?.warn(`${path.basename(this.opts.file)} failed validation, trying backups`);
       const restored = await restoreLatestBackup(this.opts.file, this.opts.backupDir);

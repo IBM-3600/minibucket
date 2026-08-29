@@ -4,9 +4,10 @@ import { state, setViewMode } from '../state.js';
 import { renderGrid, renderList, bulkBar } from '../render-assets.js';
 import { navigate } from '../router.js';
 
+
 export async function renderAssets(view, { query }) {
   const params = { perPage: 50, page: Number(query.get('page') ?? 1) };
-  for (const k of ['q', 'category', 'tag', 'folder', 'ext', 'mime', 'from', 'to', 'minSize', 'maxSize', 'sort', 'order']) {
+  for (const k of ['q','category', 'tag', 'folder', 'ext', 'mime', 'from', 'to', 'minSize', 'maxSize', 'sort', 'order']) {
     if (query.get(k)) params[k] = query.get(k);
   }
   const qs = new URLSearchParams(params).toString();
@@ -46,7 +47,7 @@ export async function renderAssets(view, { query }) {
   const loadPage = async (p) => {
     if (loading) return;
     loading = true;
-    const res = await api.get(`/api/v1/assets?${qs}&page=${p}`);
+    const res = await api.get(`/api/v1/assets?${qs}${qs !== "" ? '&' : ''}page=${p}`);
     totalPages = res.totalPages;
     collected.push(...res.items);
     listWrap.innerHTML = '';

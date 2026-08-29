@@ -148,7 +148,6 @@ export class AssetsIndex {
       }
       return true;
     });
-
     const sortKey = q.sort ?? 'uploadedAt';
     const dir = q.order === 'asc' ? 1 : -1;
     items.sort((a, b) => {
@@ -157,10 +156,11 @@ export class AssetsIndex {
       if (typeof av === 'number' && typeof bv === 'number') return (av - bv) * dir;
       return String(av).localeCompare(String(bv)) * dir;
     });
-
+    
     const total = items.length;
     const totalPages = Math.max(1, Math.ceil(total / perPage));
     items = items.slice((page - 1) * perPage, page * perPage);
+
     return { items, total, page, perPage, totalPages };
   }
 

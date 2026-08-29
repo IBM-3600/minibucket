@@ -2,6 +2,7 @@ import type { FastifyInstance } from 'fastify';
 import { makeAuthenticate } from '../auth/authenticate.js';
 import type { ListAssetsQuery } from '../types.js';
 
+
 function parseListQuery(qs: Record<string, unknown>): ListAssetsQuery {
   const num = (v: unknown) => (v === undefined || v === '' ? undefined : Number(v));
   return {
@@ -17,7 +18,7 @@ function parseListQuery(qs: Record<string, unknown>): ListAssetsQuery {
     maxSize: num(qs.maxSize),
     sort: (qs.sort as ListAssetsQuery['sort']) ?? 'uploadedAt',
     order: qs.order === 'asc' ? 'asc' : 'desc',
-    page: num(qs.page) ?? 1,
+    page: num((qs.page as unknown[])?.[0]) ?? 1,
     perPage: num(qs.perPage) ?? 50,
     trashed: qs.trashed === 'true' || qs.trashed === '1'
   };
@@ -28,7 +29,8 @@ export function registerAssetRoutes(app: FastifyInstance): void {
   const authenticate = makeAuthenticate(ctx);
 
   app.get('/api/v1/assets', { preHandler: authenticate('viewer') }, async (req) => {
-    return ctx.assets.list(parseListQuery(req.query as Record<string, unknown>));
+    const list = ctx.assets.list(parseListQuery(req.query as Record<string, unknown>));
+    return list;
   });
 
   app.get('/api/v1/search', { preHandler: authenticate('viewer') }, async (req) => {
